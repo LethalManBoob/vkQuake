@@ -250,6 +250,7 @@ void Modlist_Init (void)
 		if (!strcmp(fdat.cFileName, "."))
 			continue;
 
+#if 0
 		q_snprintf (mod_string, sizeof(mod_string), "%s/%s/progs.dat", com_basedir, fdat.cFileName);
 		mod_fhnd = FindFirstFile(mod_string, &mod_fdat);
 		if (mod_fhnd != INVALID_HANDLE_VALUE) {
@@ -264,6 +265,10 @@ void Modlist_Init (void)
 				Modlist_Add(fdat.cFileName);
 			}
 		}
+#else
+		// don't bother testing for pak files / progs.dat
+		Modlist_Add(fdat.cFileName);
+#endif
 	} while (FindNextFile(fhnd, &fdat));
 
 	FindClose(fhnd);
@@ -288,6 +293,7 @@ void Modlist_Init (void)
 		mod_dir_p = opendir(mod_string);
 		if (mod_dir_p == NULL)
 			continue;
+#if 0
 		// find progs.dat and pak file(s)
 		while ((mod_dir_t = readdir(mod_dir_p)) != NULL)
 		{
@@ -300,6 +306,10 @@ void Modlist_Init (void)
 				break;
 			}
 		}
+#else
+		// don't bother testing for pak files / progs.dat
+		Modlist_Add(dir_t->d_name);
+#endif
 		closedir(mod_dir_p);
 	}
 
